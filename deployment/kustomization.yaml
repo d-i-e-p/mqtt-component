@@ -4,3 +4,5 @@ resources:
   - volume-claim.yaml
   - deployment.yaml
   - loadbalancer-service.yaml
+  - config.yaml
+  - password-config.yaml

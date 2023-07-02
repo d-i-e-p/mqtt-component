@@ -6,8 +6,8 @@ metadata:
     app: mosquitto
 spec:
   ports:
-  - port: 1883
-selector:
-  app: mosquitto
-  tier: frontend
-  type: LoadBalancer
+    - port: 1883
+  selector:
+    app: mosquitto
+    tier: frontend
+    type: LoadBalancer
