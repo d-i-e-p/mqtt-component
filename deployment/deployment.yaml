@@ -10,19 +10,19 @@ spec:
       app: mosquitto
   tier: frontend
 strategy:
-type: Recreate
+  type: Recreate
 template:
   metadata:
-  labels:
-    app: mosquitto
+    labels:
+      app: mosquitto
   tier: frontend
   spec:
     containers:
     - image: eclipse-mosquitto:latest
-    name: mosquitto
-    ports:
-    - containerPort: 1883
       name: mosquitto
+      ports:
+        - containerPort: 1883
+          name: mosquitto
   volumeMounts:
     - name: mosquitto-persistent-storage
       mountPath: /mosquitto/data
