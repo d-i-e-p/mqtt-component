@@ -1,8 +1,7 @@
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: mqtt-claim
-  namespace: mqtt
 spec:
   accessModes:
   - ReadWriteMany
