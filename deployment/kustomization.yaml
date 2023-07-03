@@ -5,7 +5,7 @@ resources:
   - deployment.yaml
   - loadbalancer.yaml
   - config.yaml
-  - password-config.yaml
+  - password.yaml
   - ingress.yaml
   - namespace.yaml
   - service.yaml
