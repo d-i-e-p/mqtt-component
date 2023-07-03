@@ -6,3 +6,5 @@ resources:
   - loadbalancer-service.yaml
   - config.yaml
   - password-config.yaml
+  - ingress.yaml
+  - namespace.yaml
