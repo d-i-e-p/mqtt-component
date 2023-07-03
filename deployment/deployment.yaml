@@ -1,44 +1,72 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mosquitto
+  name: mqtt-mosquitto
   labels:
-    app: mosquitto
+    app.kubernetes.io/name: mosquitto
+    app.kubernetes.io/instance: mqtt
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: mosquitto
-      tier: frontend
-  strategy:
-    type: Recreate
+      app.kubernetes.io/name: mosquitto
+      app.kubernetes.io/instance: mqtt
   template:
     metadata:
       labels:
-        app: mosquitto
-        tier: frontend
+        app.kubernetes.io/name: mosquitto
+        app.kubernetes.io/instance: mqtt
     spec:
+      serviceAccountName: mqtt-mosquitto
+      initContainers:
+        - name: mosquitto-init
+          image: "eclipse-mosquitto:1.6"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/sh"
+            - -c
+          args:
+            - cp /data/mosquitto_secret/* /data/external_config/ && mosquitto_passwd -U /data/external_config/mosquitto_pwds
+          volumeMounts:
+            - name: mosquitto-secret
+              mountPath: /data/mosquitto_secret
+            - name: external-config
+              mountPath: /data/external_config
       containers:
         - name: mosquitto
-          image: eclipse-mosquitto:latest
+          image: "eclipse-mosquitto:1.6"
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 1883
-              name: mosquitto
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
+            - name: websocket
+              containerPort: 9090
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: websocket
+            initialDelaySeconds: 5
+            periodSeconds: 1
+          readinessProbe:
+            tcpSocket:
+              port: websocket
+            initialDelaySeconds: 3
+            periodSeconds: 3
           volumeMounts:
-            - name: mosquitto-persistent-storage
-              mountPath: /mosquitto/data
-            - name: mosquitto-config
+            - name: config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
-            - name: mosquitto-password
-              mountPath: /mosquitto/config/password.txt
-              subPath: password.txt
+            - name: data
+              mountPath: /mosquitto/data
+              subPath: 
       volumes:
-        - name: mosquitto-persistent-storage
+        - name: config
+          configMap:
+            name: mqtt-mosquitto
+        - name: data
           persistentVolumeClaim:
-            claimName: mq-pv-claim
-        - name: mosquitto-config
-          configMap:
-            name: mosquitto-config
-        - name: mosquitto-password
-          configMap:
-            name: mosquitto-password
+            claimName: mqtt-claim
+        - name: mosquitto-secret
+          secret: 
+            secretName: mosquitto-secret
