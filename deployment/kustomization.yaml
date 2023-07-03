@@ -8,5 +8,4 @@ resources:
   - password.yaml
   - namespace.yaml
   - service.yaml
-  - serviceaccount.yaml
   - ingress.yaml
