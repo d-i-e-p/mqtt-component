@@ -29,6 +29,8 @@ spec:
           volumeMounts:
             - name: mosquitto-secret
               mountPath: /data/mosquitto_secret
+            - name: external-config
+              mountPath: /mosquitto/external_config
       containers:
         - name: mosquitto
           image: "eclipse-mosquitto:1.6"
@@ -56,7 +58,9 @@ spec:
               subPath: mosquitto.conf
             - name: data
               mountPath: /mosquitto/data
-              subPath: 
+              subPath:
+            - name: external-config
+              mountPath: /mosquitto/external_config              
       volumes:
         - name: config
           configMap:
@@ -67,3 +71,6 @@ spec:
         - name: mosquitto-secret
           secret: 
             secretName: mosquitto-secret
+        - name: external-config
+          emptyDir:
+            medium: Memory
