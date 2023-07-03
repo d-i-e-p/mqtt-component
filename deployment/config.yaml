@@ -15,4 +15,4 @@ data:
     listener 9090
     protocol websockets
     allow_anonymous false
-    password_file /mosquitto/external_config/mosquitto_pwds
+    password_file /data/mosquitto_secret/mosquitto_pwds

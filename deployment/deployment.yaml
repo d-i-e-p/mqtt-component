@@ -18,20 +18,20 @@ spec:
         app.kubernetes.io/instance: mqtt
     spec:
       serviceAccountName: mqtt-mosquitto
-      initContainers:
-        - name: mosquitto-init
-          image: "eclipse-mosquitto:1.6"
-          imagePullPolicy: IfNotPresent
-          command:
-            - "/bin/sh"
-            - -c
-          args:
-            - cp /data/mosquitto_secret/* /data/external_config/ && mosquitto_passwd -U /data/external_config/mosquitto_pwds
-          volumeMounts:
-            - name: mosquitto-secret
-              mountPath: /data/mosquitto_secret
-            - name: external-config
-              mountPath: /mosquitto/external_config
+      # initContainers:
+      #   - name: mosquitto-init
+      #     image: "eclipse-mosquitto:1.6"
+      #     imagePullPolicy: IfNotPresent
+      #     command:
+      #       - "/bin/sh"
+      #       - -c
+      #     args:
+      #       - cp /data/mosquitto_secret/* /data/external_config/ && mosquitto_passwd -U /data/external_config/mosquitto_pwds
+      #     volumeMounts:
+      #       - name: mosquitto-secret
+      #         mountPath: /data/mosquitto_secret
+      #       - name: external-config
+      #         mountPath: /mosquitto/external_config
       containers:
         - name: mosquitto
           image: "eclipse-mosquitto:1.6"
@@ -54,14 +54,14 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 3
           volumeMounts:
+            - name: mosquitto-secret
+              mountPath: /data/mosquitto_secret
             - name: config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
             - name: data
               mountPath: /mosquitto/data
-              subPath:
-            - name: external-config
-              mountPath: /mosquitto/external_config              
+              subPath:           
       volumes:
         - name: config
           configMap:
@@ -72,6 +72,3 @@ spec:
         - name: mosquitto-secret
           secret: 
             secretName: mosquitto-secret
-        - name: external-config
-          emptyDir:
-            medium: Memory
