@@ -30,8 +30,6 @@ spec:
           volumeMounts:
             - name: mosquitto-secret
               mountPath: /data/mosquitto_secret
-            - name: external-config
-              mountPath: /data/external_config
       containers:
         - name: mosquitto
           image: "eclipse-mosquitto:1.6"
