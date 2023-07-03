@@ -11,4 +11,3 @@ spec:
       port: 1883 
       targetPort: 1883
   type: LoadBalancer
-  loadBalancerIP: http://192.168.178.881
