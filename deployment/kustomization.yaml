@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - volume-claim.yaml
   - deployment.yaml
-  - loadbalancer.yaml
+  - ingress.yaml
   - config.yaml
   - password.yaml
   - namespace.yaml
