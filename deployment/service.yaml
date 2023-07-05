@@ -6,7 +6,9 @@ metadata:
     app.kubernetes.io/name: mosquitto
     app.kubernetes.io/instance: mqtt
 spec:
-  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: mosquitto
+    app.kubernetes.io/instance: mqtt
   ports:
     - name: mqtt
       port: 1883
@@ -16,6 +18,3 @@ spec:
       port: 9090
       targetPort: websocket
       protocol: TCP
-  selector:
-    app.kubernetes.io/name: mosquitto
-    app.kubernetes.io/instance: mqtt
