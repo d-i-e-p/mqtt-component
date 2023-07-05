@@ -17,4 +17,5 @@ spec:
         image: emqx/mqttx-cli
         command: [ "/bin/sh" , "-c" ]
         args: 
-          - tail -f /dev/null
+          - "mqttx --version"
+          - "tail -f /dev/null"
