@@ -15,7 +15,4 @@ spec:
       containers:
       - name: mqttx-cli
         image: emqx/mqttx-cli
-        command: [ "/bin/sh" , "-c" ]
-        args: 
-          - "mqttx --version"
-          - "tail -f /dev/null"
+        command: [ "/bin/sh" , "-c", "tail -f /dev/null" ]
