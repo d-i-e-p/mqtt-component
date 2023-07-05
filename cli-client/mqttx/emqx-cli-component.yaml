@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-mqttx-cli
+spec:
+  selector:
+    matchLabels:
+      app: mqtt-mqttx-cli
+  replicas: 1 
+  template: 
+    metadata:
+      labels:
+        app: mqtt-mqttx-cli
+    spec:
+      containers:
+      - name: mqttx-cli
+        image: emqx/mqttx-cli
+        command: [ "/bin/sh" , "-c" ]
+        args: 
+          - mqttx --version
+          - mqttx conn -h 'mqtt-mosquitto.mqtt.svc.cluster.local' -p 1883 -u 'admin' -P 'admin@123'
+          - "tail -f /dev/null"
