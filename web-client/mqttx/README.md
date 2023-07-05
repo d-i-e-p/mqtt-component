@@ -1,2 +1,2 @@
-# Mosquitto MQTT Broker Component
+# Mqttx Mqtt Web-Client Component
 ... Documentation is coming soon ...

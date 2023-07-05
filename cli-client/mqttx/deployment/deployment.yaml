@@ -19,4 +19,4 @@ spec:
         args: 
           - mqttx --version
           - mqttx conn -h 'mqtt-mosquitto.mqtt.svc.cluster.local' -p 1883 -u 'admin' -P 'admin@123'
-          - "tail -f /dev/null"
+          # - "tail -f /dev/null"
